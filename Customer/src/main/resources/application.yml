@@ -1,0 +1,26 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /api/v1
+
+
+spring:
+  application:
+    name: customer-service
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format-sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/customer
+    username: richard
+    password: avatar10
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
