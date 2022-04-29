@@ -1,17 +1,20 @@
 package com.chibs.Customer;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final RestTemplate restTemplate;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     public Optional<Customer> getCustomer(Long customerId) {
         return customerRepository.findById(customerId);
@@ -22,7 +25,15 @@ public class CustomerService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail()).build();
-        return customerRepository.save(customer);
+        customerRepository.saveAndFlush(customer);
+        String url = "http://localhost:8080/api/v1/fraud-check/{customer_id}";
+        String response = restTemplate.getForObject(url, String.class, customer.getId());
+
+        assert response != null;
+        if (response.equals("false")){
+            throw new IllegalStateException("Customer is not allowed to register");
+        }
+        return customer;
     }
 
     public List<Customer> getAllCustomers(){
