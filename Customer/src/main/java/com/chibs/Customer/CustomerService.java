@@ -26,7 +26,7 @@ public class CustomerService {
                 .lastName(request.getLastName())
                 .email(request.getEmail()).build();
         customerRepository.saveAndFlush(customer);
-        String url = "http://localhost:8080/api/v1/fraud-check/{customer_id}";
+        String url = "http://FRAUD-SERVICE/api/v1/fraud-check/{customer_id}";
         String response = restTemplate.getForObject(url, String.class, customer.getId());
 
         assert response != null;
