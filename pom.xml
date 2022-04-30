@@ -12,6 +12,7 @@
         <module>Customer</module>
         <module>Fraud</module>
         <module>Eureka-server</module>
+        <module>Admin-server</module>
     </modules>
 
     <properties>

@@ -24,6 +24,11 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:7000
+
 eureka:
   client:
     service-url:
