@@ -4,3 +4,16 @@ server:
 spring:
   application:
     name: admin
+  security:
+    user:
+      name: admin
+      password: admin
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: false
+    registry-fetch-interval-seconds: 5
+  instance:
+    preferIpAddress: true

@@ -1,7 +1,6 @@
 server:
   port: 8080
-  servlet:
-    context-path: /api/v1
+
 
 spring:
   application:
@@ -24,12 +23,17 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
-  boot:
-    admin:
-      client:
-        url: http://localhost:7000
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
