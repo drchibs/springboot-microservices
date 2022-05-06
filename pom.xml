@@ -13,6 +13,7 @@
         <module>Fraud</module>
         <module>Eureka-server</module>
         <module>Admin-server</module>
+        <module>Clients</module>
     </modules>
 
     <properties>
@@ -58,6 +59,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 
