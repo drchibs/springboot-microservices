@@ -1,6 +1,8 @@
 package com.chibs.Customer;
 
 import com.chibs.clients.fraud.FraudClient;
+import com.chibs.clients.notification.NotificationClient;
+import com.chibs.clients.notification.NotificationDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     private final FraudClient fraudClient;
+
+    private final NotificationClient notificationClient;
+
     private final RestTemplate restTemplate;
 
 
@@ -29,9 +34,17 @@ public class CustomerService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail()).build();
-        customerRepository.saveAndFlush(customer);
+        Customer newCustomer = customerRepository.saveAndFlush(customer);
         // String url = "http://FRAUD/fraud-check/{customer_id}";
         // String response = restTemplate.getForObject(url, String.class, customer.getId());
+
+        //send notification
+        NotificationDTO newNotification = NotificationDTO.builder()
+                .title("Customer Registration")
+                .message("Customer with id: " + customer.getId() + " has been registered").build();
+        notificationClient.sendNotification(newNotification);
+
+        // check fraud
         ResponseEntity<?> req = fraudClient.check(customer.getId());
         Boolean response = (Boolean) req.getBody();
         log.info("Fraud check response: {}", response);
@@ -39,7 +52,8 @@ public class CustomerService {
         if (response.equals(false)){
             throw new IllegalStateException("Customer is not allowed to register");
         }
-        return customer;
+
+        return newCustomer;
     }
 
     public List<Customer> getAllCustomers(){

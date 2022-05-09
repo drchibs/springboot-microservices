@@ -14,6 +14,7 @@
         <module>Eureka-server</module>
         <module>Admin-server</module>
         <module>Clients</module>
+        <module>Notification</module>
     </modules>
 
     <properties>
