@@ -15,6 +15,7 @@
         <module>Admin-server</module>
         <module>Clients</module>
         <module>Notification</module>
+        <module>Api-Gateway</module>
     </modules>
 
     <properties>
