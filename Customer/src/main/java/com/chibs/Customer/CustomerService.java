@@ -38,20 +38,20 @@ public class CustomerService {
         // String url = "http://FRAUD/fraud-check/{customer_id}";
         // String response = restTemplate.getForObject(url, String.class, customer.getId());
 
-        //send notification
-        NotificationDTO newNotification = NotificationDTO.builder()
-                .title("Customer Registration")
-                .message("Customer with id: " + customer.getId() + " has been registered").build();
-        notificationClient.sendNotification(newNotification);
-
         // check fraud
         ResponseEntity<?> req = fraudClient.check(customer.getId());
         Boolean response = (Boolean) req.getBody();
         log.info("Fraud check response: {}", response);
         assert response != null;
-        if (response.equals(false)){
+        if (response){
             throw new IllegalStateException("Customer is not allowed to register");
         }
+
+        //send notification
+        NotificationDTO newNotification = NotificationDTO.builder()
+                .title("Customer Registration")
+                .message("Customer with id: " + customer.getId() + " has been registered").build();
+        notificationClient.sendNotification(newNotification);
 
         return newCustomer;
     }
