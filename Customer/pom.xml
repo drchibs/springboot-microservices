@@ -40,6 +40,10 @@
 			<artifactId>spring-boot-admin-starter-client</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.chibs</groupId>
 			<artifactId>Clients</artifactId>
 			<version>1.0-SNAPSHOT</version>
